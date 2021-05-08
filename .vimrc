@@ -37,7 +37,7 @@ Plug 'mhinz/vim-startify'
 Plug 'preservim/nerdcommenter'
 Plug 'davidklsn/vim-sialoquent'
 Plug 'ajmwagar/vim-deus'
-
+Plug 'mg979/vim-visual-multi'
 Plug 'tpope/vim-surround'
 Plug 'gcmt/wildfire.vim'
 Plug 'honza/vim-snippets'
