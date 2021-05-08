@@ -37,7 +37,7 @@ Plug 'mhinz/vim-startify'
 Plug 'preservim/nerdcommenter'
 Plug 'davidklsn/vim-sialoquent'
 Plug 'ajmwagar/vim-deus'
-Plug 'mg979/vim-visual-multi'
+Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'gcmt/wildfire.vim'
 Plug 'honza/vim-snippets'
@@ -46,6 +46,8 @@ Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
 "Plug 'davidhalter/jedi-vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim'
@@ -57,6 +59,9 @@ call plug#end()
 colorscheme deus 
 
 let g:UltiSnipsExpandTrigger = "<tab>"
+
+"snippets
+
 
 set t_Co=256
 set termguicolors
@@ -74,6 +79,48 @@ let g:deus_termcolors=256
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 
+" NERDTree
+map T :NERDTreeToggle<CR>
+
+
+
+""""""自动添加头文件""""""
+autocmd BufNewFile *.py,*.sh,*.java exec ":call SetTitle()"
+""定义函数SetTitle，自动插入文件头
+func SetTitle()
+
+        exec "set fileencoding=utf-8"
+        "如果文件类型为.sh文件
+        if &filetype == 'sh'
+                call setline(1,"\#########################################################################")
+                call append(line("."), "\# File Name: ".expand("%"))
+                call append(line(".")+1, "\# Created Time: ".strftime("%c"))
+                call append(line(".")+2, "\#!/bin/bash")
+                call append(line(".")+3, "")
+        elseif &filetype == 'python'
+                call setline(1, "\#!/usr/bin/python")
+                call append(line(".")+0, "#-*- coding:utf-8 -*-")
+                call append(line(".")+1, "\#Created Time: ".strftime("%c"))
+        elseif &filetype == 'java'
+                call setline(1, "/**")
+                call append(line(".")+0, "Created Time".strftime("%c"))
+                call append(line(".")+1, "*/")
+        else
+                call setline(1, "/*************************************************************************")
+                call append(line("."), "File Name: ".expand("%"))
+                call append(line(".")+1, "Created Time: ".strftime("%c"))
+        endif
+		"新建文件后，自动定位到文件末尾
+        autocmd BufNewFile * normal G
+endfunc
+""""""""""""""""""""""""""
+
+
+
+
+
+
+
 map fy :CocCommand translator.popup<CR>
 
 map R :call CompileRunGcc()<CR>
@@ -87,7 +134,7 @@ func! CompileRunGcc()
     endif
 endfunc
 
-
+ 
 "func! CompileRunGcc()
     "exec "w" 
     "if &filetype == 'java' 
